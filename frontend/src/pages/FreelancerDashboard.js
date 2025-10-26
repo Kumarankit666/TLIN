@@ -19,7 +19,9 @@ function FreelancerDashboard() {
     reason: "",
   });
 
-  // Load client projects and freelancer applications
+  const [showAcceptedPopup, setShowAcceptedPopup] = useState(false);
+  const [status, setStatus] = useState("In Process");
+
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("clientProjects")) || [];
     setProjects(stored);
@@ -28,7 +30,6 @@ function FreelancerDashboard() {
     setAppliedProjects(applied);
   }, []);
 
-  // Auto-refresh to sync Accept/Reject status from client
   useEffect(() => {
     const interval = setInterval(() => {
       const updatedApps = JSON.parse(localStorage.getItem("freelancerApplications")) || [];
@@ -53,11 +54,9 @@ function FreelancerDashboard() {
 
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
-  // Handle apply form submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Check if already applied
     const freelancerApps = JSON.parse(localStorage.getItem("freelancerApplications")) || [];
     const existingApp = freelancerApps.find(
       (app) => app.projectTitle === selectedProject.title
@@ -73,22 +72,23 @@ function FreelancerDashboard() {
         setShowForm(false);
         return;
       }
-      // Rejected → allow to apply again
     }
 
     const application = {
       projectTitle: selectedProject.title,
+      skills: selectedProject.skills,
+      budget: selectedProject.budget,
+      deadline: selectedProject.deadline,
+      description: selectedProject.description || "No description available",
       ...formData,
       status: "Pending",
       appliedAt: new Date().toLocaleString(),
     };
 
-    // Save to client applications
     const storedApps = JSON.parse(localStorage.getItem("applications")) || [];
     storedApps.push(application);
     localStorage.setItem("applications", JSON.stringify(storedApps));
 
-    // Save to freelancer applications
     freelancerApps.push(application);
     localStorage.setItem("freelancerApplications", JSON.stringify(freelancerApps));
 
@@ -105,9 +105,76 @@ function FreelancerDashboard() {
     setShowForm(false);
   };
 
+  const handleAcceptedProjectClick = (app) => {
+    const latest = JSON.parse(localStorage.getItem("freelancerApplications")) || [];
+    const matched = latest.find(
+      (a) => a.projectTitle === app.projectTitle && a.email === app.email
+    ) || app;
+    setSelectedProject(matched);
+    const initialStatus = matched.projectStatus || matched.proposedStatus || "In Process";
+    setStatus(initialStatus);
+    setShowAcceptedPopup(true);
+  };
+
+  const handleSaveStatusProposal = () => {
+    if (!selectedProject) return;
+
+    const freelancerApps = JSON.parse(localStorage.getItem("freelancerApplications")) || [];
+    const applications = JSON.parse(localStorage.getItem("applications")) || [];
+
+    const updatedFreelancer = freelancerApps.map((a) => {
+      if (a.projectTitle === selectedProject.projectTitle && a.email === selectedProject.email) {
+        if (a.awaitingApproval) {
+          return a;
+        }
+        return {
+          ...a,
+          proposedStatus: status,
+          awaitingApproval: true,
+          proposedAt: new Date().toLocaleString(),
+        };
+      }
+      return a;
+    });
+
+    const updatedApplications = applications.map((a) => {
+      if (a.projectTitle === selectedProject.projectTitle && a.email === selectedProject.email) {
+        if (a.awaitingApproval) return a;
+        return {
+          ...a,
+          proposedStatus: status,
+          awaitingApproval: true,
+          proposedAt: new Date().toLocaleString(),
+        };
+      }
+      return a;
+    });
+
+    localStorage.setItem("freelancerApplications", JSON.stringify(updatedFreelancer));
+    localStorage.setItem("applications", JSON.stringify(updatedApplications));
+    setAppliedProjects(updatedFreelancer);
+
+    const updatedSel = updatedFreelancer.find(
+      (a) => a.projectTitle === selectedProject.projectTitle && a.email === selectedProject.email
+    );
+    setSelectedProject(updatedSel);
+
+    alert("✅ Status proposed. Waiting for client approval.");
+  };
+
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
+  };
+
+  // 🆕 Chat button handler
+  const handleChat = () => {
+    if (!selectedProject) return;
+    const clientEmail = selectedProject.clientEmail || "unknown@example.com";
+    navigate(`/chat?projectTitle=${encodeURIComponent(selectedProject.projectTitle)}&clientEmail=${encodeURIComponent(clientEmail)}`);
+  };
+
   return (
     <div className="container">
-      {/* Sidebar */}
       <div className="sidebar">
         <div className="nav-item" onClick={() => navigate("/freelancer-dashboard")}>
           📊 Dashboard
@@ -122,9 +189,7 @@ function FreelancerDashboard() {
         <div className="nav-item">📈 Reports</div>
       </div>
 
-      {/* Main Section */}
       <div className="main">
-        {/* Top Stats */}
         <div className="metrics">
           <div className="metric-card">
             <div style={{ fontSize: "32px", fontWeight: "bold" }}>₹12,8700</div>
@@ -148,7 +213,6 @@ function FreelancerDashboard() {
           </div>
         </div>
 
-        {/* Applied Project List */}
         {showAppliedList && (
           <div
             style={{
@@ -167,12 +231,17 @@ function FreelancerDashboard() {
                   style={{
                     background: "#fff",
                     borderRadius: "8px",
-                    padding: "12px",
+                    padding: "15px",
                     marginBottom: "10px",
                     boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
+                    cursor: app.status === "Accepted" ? "pointer" : "default",
+                    transition: "0.3s",
                   }}
+                  onClick={() =>
+                    app.status === "Accepted" && handleAcceptedProjectClick(app)
+                  }
                 >
-                  <strong>{app.projectTitle}</strong>
+                  <strong style={{ fontSize: "18px" }}>{app.projectTitle}</strong>
                   <p style={{ margin: "5px 0" }}>
                     Status:{" "}
                     <span
@@ -189,9 +258,15 @@ function FreelancerDashboard() {
                       {app.status}
                     </span>
                   </p>
-                  <p style={{ margin: "5px 0", fontSize: "13px" }}>
+                  <p style={{ fontSize: "13px", color: "#555" }}>
                     Applied on: {app.appliedAt}
                   </p>
+
+                  {app.awaitingApproval && (
+                    <div style={{ marginTop: "8px", fontSize: "13px", color: "#6c757d" }}>
+                      ⏳ Status proposed: <b>{app.proposedStatus}</b> (awaiting client approval)
+                    </div>
+                  )}
                 </div>
               ))
             ) : (
@@ -200,7 +275,6 @@ function FreelancerDashboard() {
           </div>
         )}
 
-        {/* Search Box */}
         <div style={{ margin: "20px 0" }}>
           <input
             type="text"
@@ -218,7 +292,6 @@ function FreelancerDashboard() {
           />
         </div>
 
-        {/* Filtered Projects */}
         {searchTerm && (
           <>
             {filtered.length > 0 ? (
@@ -269,76 +342,118 @@ function FreelancerDashboard() {
         )}
       </div>
 
-      {/* Apply Form (Popup Modal) */}
-      {showForm && (
+      {/* Accepted Project Popup */}
+      {showAcceptedPopup && (
         <div className="modal-overlay">
-          <div className="modal">
-            <h3>Apply for {selectedProject?.title}</h3>
-            <form onSubmit={handleSubmit} className="apply-form">
-              <label>Enter Your Name</label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-                required
-              />
+          <div
+            className="modal"
+            style={{
+              background: "linear-gradient(135deg, #ffffff, #f1f4f8)",
+              padding: "25px",
+              borderRadius: "15px",
+              boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
+              maxWidth: "500px",
+            }}
+          >
+            <h2
+              style={{
+                textAlign: "center",
+                marginBottom: "10px",
+                color: "#007bff",
+              }}
+            >
+              {selectedProject?.projectTitle}
+            </h2>
 
-              <label>Email ID</label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                required
-              />
+            <div
+              style={{
+                background: "#fff",
+                borderRadius: "10px",
+                padding: "15px",
+                marginBottom: "12px",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+              }}
+            >
+              <p><strong>💰 Budget:</strong> ₹{selectedProject?.budget}</p>
+              <p><strong>📅 Deadline:</strong> {selectedProject?.deadline}</p>
+              <p><strong>🧠 Skills:</strong> {selectedProject?.skills}</p>
+              <p><strong>📝 Description:</strong> {selectedProject?.description}</p>
 
-              <label>Project Budget</label>
-              <input
-                type="text"
-                value={formData.budget}
-                onChange={(e) =>
-                  setFormData({ ...formData, budget: e.target.value })
-                }
-                required
-              />
+              {selectedProject?.awaitingApproval && (
+                <p style={{ marginTop: "8px", color: "#6c757d" }}>
+                  ⏳ Proposed: <b>{selectedProject.proposedStatus}</b> (sent on {selectedProject.proposedAt})
+                </p>
+              )}
+            </div>
 
-              <label>Deadline</label>
-              <input
-                type="date"
-                value={formData.deadline}
-                onChange={(e) =>
-                  setFormData({ ...formData, deadline: e.target.value })
-                }
-                required
-              />
+            <label style={{ fontWeight: "bold" }}>Project Status</label>
+            <select
+              value={status}
+              onChange={handleStatusChange}
+              style={{
+                width: "100%",
+                padding: "10px",
+                borderRadius: "8px",
+                border: "1px solid #ccc",
+                marginBottom: "15px",
+              }}
+              disabled={selectedProject?.awaitingApproval ? true : false}
+            >
+              <option>In Process</option>
+              <option>Completed</option>
+            </select>
 
-              <label>Why are you fit for this project?</label>
-              <textarea
-                value={formData.reason}
-                onChange={(e) =>
-                  setFormData({ ...formData, reason: e.target.value })
-                }
-                placeholder="Explain why you're the right fit for this project..."
-                rows="4"
-                required
-              ></textarea>
+            <div style={{ display: "flex", justifyContent: "center", gap: "10px", flexWrap: "wrap" }}>
+              <button
+                className="dashboard-btn"
+                style={{
+                  background: selectedProject?.awaitingApproval ? "#6c757d" : "#007bff",
+                  color: "#fff",
+                  padding: "10px 20px",
+                  borderRadius: "8px",
+                  fontWeight: "bold",
+                  cursor: selectedProject?.awaitingApproval ? "not-allowed" : "pointer",
+                }}
+                onClick={() => {
+                  if (selectedProject?.awaitingApproval) {
+                    alert("⏳ Waiting for client to approve/reject previous proposal.");
+                    return;
+                  }
+                  handleSaveStatusProposal();
+                }}
+              >
+                💾 Save (Propose)
+              </button>
 
-              <div className="modal-buttons">
-                <button type="submit" className="dashboard-btn">
-                  ✅ Submit
-                </button>
-                <button
-                  type="button"
-                  className="dashboard-btn cancel"
-                  onClick={() => setShowForm(false)}
-                >
-                  ❌ Cancel
-                </button>
-              </div>
-            </form>
+              {/* 🆕 Chat Button */}
+              <button
+                className="dashboard-btn"
+                style={{
+                  background: "#28a745",
+                  color: "#fff",
+                  padding: "10px 20px",
+                  borderRadius: "8px",
+                  fontWeight: "bold",
+                }}
+                onClick={handleChat}
+              >
+                💬 Chat with Client
+              </button>
+
+              <button
+                className="dashboard-btn cancel"
+                style={{
+                  background: "#dc3545",
+                  color: "#fff",
+                  padding: "10px 20px",
+                  borderRadius: "8px",
+                  fontWeight: "bold",
+                }}
+                onClick={() => setShowAcceptedPopup(false)}
+              >
+                ❌ Close
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -1,3 +1,15 @@
+/* 🌌 Canvas Background (Animated Dots Like GenZai) */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: radial-gradient(circle at 20% 20%, #0b0c10, #1a1a2e 60%, #0b0c10 100%);
+  overflow: hidden;
+}
+
 /* 🌈 Background Theme */
 .light {
   background: linear-gradient(135deg, #e0f7ff, #ffffff);
@@ -5,7 +17,7 @@
 }
 
 .dark {
-  background: linear-gradient(135deg, #1e1e1e, #121212);
+  background: linear-gradient(135deg, #0b0c10, #1a1a2e);
   color: #eaeaea;
 }
 
@@ -15,6 +27,8 @@
   flex-direction: column;
   justify-content: space-between;
   transition: all 0.4s ease-in-out;
+  position: relative;
+  z-index: 1;
 }
 
 /* 🌐 Header */
@@ -24,28 +38,33 @@
   align-items: center;
   padding: 20px 40px;
   font-weight: bold;
+  position: relative;
+  z-index: 2;
 }
 
 .logo {
   font-size: 26px;
-  color: #007bff;
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff;
 }
 
 /* ☀️🌙 Toggle Button */
 .theme-toggle {
   background: transparent;
-  border: 2px solid #007bff;
+  border: 2px solid #00ffff;
   border-radius: 8px;
-  color: #007bff;
+  color: #00ffff;
   padding: 8px 14px;
   cursor: pointer;
   font-weight: 600;
   transition: 0.3s;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
 }
 
 .theme-toggle:hover {
-  background: #007bff;
-  color: #fff;
+  background: #00ffff;
+  color: #000;
+  box-shadow: 0 0 20px #00ffff;
 }
 
 /* 🚀 Hero Section */
@@ -53,16 +72,20 @@
   flex: 1;
   text-align: center;
   padding: 80px 20px;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-content h2 {
   font-size: 42px;
   font-weight: 700;
   animation: fadeInUp 1s ease;
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff;
 }
 
 .hero-content span {
-  color: #007bff;
+  color: #00ffff;
 }
 
 .hero-content p {
@@ -71,6 +94,7 @@
   line-height: 1.6;
   font-size: 18px;
   animation: fadeInUp 1.2s ease;
+  color: #eaeaea;
 }
 
 /* 🟢 Buttons */
@@ -82,21 +106,25 @@
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .primary-btn {
-  background-color: #007bff;
-  color: white;
+  background-color: #00ffff;
+  color: #000;
+  box-shadow: 0 0 20px #00ffff;
 }
 
 .secondary-btn {
   background-color: transparent;
-  border: 2px solid #007bff;
-  color: #007bff;
+  border: 2px solid #00ffff;
+  color: #00ffff;
 }
 
 .btn:hover {
   transform: scale(1.05);
+  box-shadow: 0 0 25px #00ffff;
 }
 
 /* ⚡ Animation */
@@ -116,5 +144,8 @@
   text-align: center;
   padding: 15px;
   font-size: 14px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ccc;
+  position: relative;
+  z-index: 2;
 }

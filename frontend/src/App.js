@@ -24,6 +24,8 @@ import ProjectsSearchPage from "./pages/ProjectsSearchPage";
 import "./pages/Auth.css";
 import { AiOutlineMail } from "react-icons/ai"; // Outline mail icon
 
+// ✅ NEW IMPORT for Chat Page
+import ChatPage from "./pages/ChatPage"; // <-- Added line
 
 // ✅ Header Component
 function HeaderBar({ theme, toggleTheme }) {
@@ -152,6 +154,7 @@ function HeaderBar({ theme, toggleTheme }) {
                 <p style={{ padding: "5px 0", borderBottom: "1px solid #ccc" }}>Message 3</p>
               </div>
               <button
+                onClick={() => navigate("/chat")} // ✅ Go to chat page
                 style={{
                   marginTop: "5px",
                   width: "100%",
@@ -163,27 +166,11 @@ function HeaderBar({ theme, toggleTheme }) {
                   cursor: "pointer",
                 }}
               >
-                See All
+                💬 Open Chat
               </button>
             </div>
           )}
         </div>
-
-        {/* Theme toggle
-        <button
-          onClick={toggleTheme}
-          style={{
-            background: theme === "dark" ? "#333" : "#fff",
-            color: theme === "dark" ? "#fff" : "#333",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            padding: "6px 12px",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
-          {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
-        </button> */}
 
         {/* Profile dropdown */}
         <div style={{ position: "relative" }}>
@@ -323,6 +310,9 @@ function App() {
           <Route path="/my-projects" element={<MyProjects />} />
           <Route path="/post-project" element={<PostProject />} />
           <Route path="/homepage" element={<HomePage />} />
+
+          {/* ✅ NEW CHAT ROUTE */}
+          <Route path="/chat" element={<ChatPage />} />
         </Routes>
       </Layout>
     </Router>

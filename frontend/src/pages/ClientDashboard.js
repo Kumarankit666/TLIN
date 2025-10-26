@@ -40,6 +40,7 @@ function ClientDashboard() {
   const getApplicationsForProject = (title) =>
     applications.filter((app) => app.projectTitle === title);
 
+  // ✅ Accept / Reject freelancer application
   const handleStatusChange = (index, newStatus, title) => {
     const updated = [...applications];
     const target = updated.filter((app) => app.projectTitle === title)[index];
@@ -62,6 +63,103 @@ function ClientDashboard() {
     localStorage.setItem("freelancerApplications", JSON.stringify(updatedFreelancerApps));
 
     alert(`Application ${newStatus} successfully!`);
+  };
+
+  // ✅ Approve freelancer proposed status
+  const handleApproveProposal = (email, title) => {
+    const apps = JSON.parse(localStorage.getItem("applications")) || [];
+    const freelancerApps = JSON.parse(localStorage.getItem("freelancerApplications")) || [];
+    const clientProjects = JSON.parse(localStorage.getItem("clientProjects")) || [];
+
+    const updatedApps = apps.map((a) => {
+      if (a.projectTitle === title && a.email === email) {
+        return {
+          ...a,
+          projectStatus: a.proposedStatus || a.projectStatus || null,
+          awaitingApproval: false,
+          approvedByClient: true,
+          approvedAt: new Date().toLocaleString(),
+          proposedStatus: undefined,
+          proposedAt: undefined,
+        };
+      }
+      return a;
+    });
+
+    const updatedFreelancerApps = freelancerApps.map((a) => {
+      if (a.projectTitle === title && a.email === email) {
+        return {
+          ...a,
+          projectStatus: a.proposedStatus || a.projectStatus || null,
+          awaitingApproval: false,
+          approvedByClient: true,
+          approvedAt: new Date().toLocaleString(),
+          proposedStatus: undefined,
+          proposedAt: undefined,
+        };
+      }
+      return a;
+    });
+
+    const updatedProjects = clientProjects.map((p) => {
+      if (p.title === title) {
+        const newStatus = updatedApps.find((a) => a.projectTitle === title)?.projectStatus;
+        if (newStatus) p.status = newStatus;
+      }
+      return p;
+    });
+
+    localStorage.setItem("applications", JSON.stringify(updatedApps));
+    localStorage.setItem("freelancerApplications", JSON.stringify(updatedFreelancerApps));
+    localStorage.setItem("clientProjects", JSON.stringify(updatedProjects));
+    setApplications(updatedApps);
+    setProjects(updatedProjects);
+
+    alert("✅ Freelancer status approved and project status updated.");
+  };
+
+  // ❌ Reject freelancer proposed status
+  const handleRejectProposal = (email, title) => {
+    const apps = JSON.parse(localStorage.getItem("applications")) || [];
+    const freelancerApps = JSON.parse(localStorage.getItem("freelancerApplications")) || [];
+
+    const updatedApps = apps.map((a) => {
+      if (a.projectTitle === title && a.email === email) {
+        return {
+          ...a,
+          awaitingApproval: false,
+          clientRejected: true,
+          clientRejectedAt: new Date().toLocaleString(),
+          proposedStatus: undefined,
+          proposedAt: undefined,
+        };
+      }
+      return a;
+    });
+
+    const updatedFreelancerApps = freelancerApps.map((a) => {
+      if (a.projectTitle === title && a.email === email) {
+        return {
+          ...a,
+          awaitingApproval: false,
+          clientRejected: true,
+          clientRejectedAt: new Date().toLocaleString(),
+          proposedStatus: undefined,
+          proposedAt: undefined,
+        };
+      }
+      return a;
+    });
+
+    localStorage.setItem("applications", JSON.stringify(updatedApps));
+    localStorage.setItem("freelancerApplications", JSON.stringify(updatedFreelancerApps));
+    setApplications(updatedApps);
+    alert("❌ Freelancer's proposed status was not approved.");
+  };
+
+  // ✅ NEW: Chat navigation
+  const handleChatOpen = (projectTitle, freelancerEmail) => {
+    navigate(`/chat?projectTitle=${encodeURIComponent(projectTitle)}&freelancerEmail=${encodeURIComponent(freelancerEmail)}`);
   };
 
   return (
@@ -114,21 +212,21 @@ function ClientDashboard() {
                   onClick={() => { setSelectedProject(project); setShowModal(true); }}
                   style={{ background: "#007bff", color: "white", padding: "6px 12px", borderRadius: "8px", border: "none", marginRight: "10px", cursor: "pointer" }}
                 >
-                View Applications
+                  View Applications
                 </button>
 
                 <button
                   onClick={() => setEditProject({ ...project })}
                   style={{ background: "#ffc107", color: "black", padding: "6px 12px", borderRadius: "8px", border: "none", marginRight: "10px", cursor: "pointer" }}
                 >
-                 Edit Project
+                  Edit Project
                 </button>
 
                 <button
                   onClick={() => handleDeleteProject(i)}
                   style={{ background: "red", color: "white", padding: "6px 12px", borderRadius: "8px", border: "none", cursor: "pointer" }}
                 >
-                   Delete Project
+                  Delete Project
                 </button>
               </div>
             </div>
@@ -136,10 +234,10 @@ function ClientDashboard() {
         })
       )}
 
-      {/* Modal for Applications */}
+      {/* Applications Modal */}
       {showModal && selectedProject && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()} style={{ background: "white", padding: "20px", borderRadius: "10px", maxWidth: "600px", width: "90%", boxShadow: "0 8px 25px rgba(0,0,0,0.2)", animation: "fadeIn 0.3s ease" }}>
+          <div className="modal" onClick={(e) => e.stopPropagation()} style={{ background: "white", padding: "20px", borderRadius: "10px", maxWidth: "600px", width: "90%", boxShadow: "0 8px 25px rgba(0,0,0,0.2)" }}>
             <h3>📨 Applications for {selectedProject.title}</h3>
             <button
               onClick={() => setShowModal(false)}
@@ -153,19 +251,54 @@ function ClientDashboard() {
                 <p>No applications yet.</p>
               ) : (
                 getApplicationsForProject(selectedProject.title).map((app, i) => (
-                  <div key={i} style={{ background: "#f3f4f6", padding: "10px", borderRadius: "8px", marginBottom: "10px", boxShadow: "0 4px 8px rgba(0,0,0,0.1)" }}>
+                  <div key={i} style={{ background: "#f3f4f6", padding: "10px", borderRadius: "8px", marginBottom: "10px" }}>
                     <p><b>👤 Name:</b> {app.name}</p>
                     <p><b>📧 Email:</b> {app.email}</p>
                     <p><b>💰 Bid:</b> ₹{app.budget}</p>
                     <p><b>📝 Reason:</b> {app.reason}</p>
-                    <p><b>⏰ Deadline:</b> {app.deadline}</p>
+                    <p><b>📅 Deadline:</b> {app.deadline}</p>
                     <p><b>📌 Status:</b> {app.status || "Pending"}</p>
+
+                    {/* ✅ Show Chat Button when Accepted */}
+                    {app.status === "Accepted" && (
+                      <button
+                        onClick={() => handleChatOpen(selectedProject.title, app.email)}
+                        style={{ background: "#28a745", color: "white", padding: "6px 12px", borderRadius: "8px", border: "none", marginTop: "8px", cursor: "pointer", fontWeight: "bold" }}
+                      >
+                        💬 Chat with Freelancer
+                      </button>
+                    )}
+
+                    {app.awaitingApproval && (
+                      <div style={{ marginTop: "8px", padding: "8px", borderRadius: "8px", background: "#fff8e6", border: "1px solid #ffe6a7" }}>
+                        <p style={{ margin: 0 }}><b>🔔 Proposed Status:</b> {app.proposedStatus}</p>
+                        <p style={{ margin: 0, fontSize: "13px", color: "#666" }}>Proposed on: {app.proposedAt}</p>
+
+                        <div style={{ marginTop: "10px", display: "flex", gap: "8px" }}>
+                          <button
+                            type="button"
+                            onClick={() => handleApproveProposal(app.email, selectedProject.title)}
+                            style={{ background: "linear-gradient(145deg, #28a745, #218838)", color: "white", padding: "8px 14px", borderRadius: "8px", border: "none", cursor: "pointer", fontWeight: "bold" }}
+                          >
+                            ✅ Approve
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handleRejectProposal(app.email, selectedProject.title)}
+                            style={{ background: "linear-gradient(145deg, #dc3545, #c82333)", color: "white", padding: "8px 14px", borderRadius: "8px", border: "none", cursor: "pointer", fontWeight: "bold" }}
+                          >
+                            ❌ Not Approved
+                          </button>
+                        </div>
+                      </div>
+                    )}
 
                     <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
                       <button
                         type="button"
                         onClick={() => handleStatusChange(i, "Accepted", selectedProject.title)}
-                        style={{ background: "linear-gradient(145deg, #28a745, #218838)", color: "white", padding: "8px 14px", borderRadius: "8px", border: "none", cursor: "pointer", fontWeight: "bold", boxShadow: "0 3px 6px rgba(0,0,0,0.15)", transition: "all 0.2s ease-in-out" }}
+                        style={{ background: "linear-gradient(145deg, #28a745, #218838)", color: "white", padding: "8px 14px", borderRadius: "8px", border: "none", cursor: "pointer", fontWeight: "bold" }}
                       >
                         ✅ Accept
                       </button>
@@ -173,7 +306,7 @@ function ClientDashboard() {
                       <button
                         type="button"
                         onClick={() => handleStatusChange(i, "Rejected", selectedProject.title)}
-                        style={{ background: "linear-gradient(145deg, #dc3545, #c82333)", color: "white", padding: "8px 14px", borderRadius: "8px", border: "none", cursor: "pointer", fontWeight: "bold", boxShadow: "0 3px 6px rgba(0,0,0,0.15)", transition: "all 0.2s ease-in-out" }}
+                        style={{ background: "linear-gradient(145deg, #dc3545, #c82333)", color: "white", padding: "8px 14px", borderRadius: "8px", border: "none", cursor: "pointer", fontWeight: "bold" }}
                       >
                         ❌ Reject
                       </button>
@@ -186,7 +319,7 @@ function ClientDashboard() {
         </div>
       )}
 
-      {/* Edit Project Modal */}
+      {/* Edit Modal */}
       {editProject && (
         <div className="modal-overlay" onClick={() => setEditProject(null)}>
           <div className="modal" onClick={(e) => e.stopPropagation()} style={{ background: "white", padding: "20px", borderRadius: "10px", maxWidth: "500px", width: "90%", boxShadow: "0 8px 25px rgba(0,0,0,0.2)" }}>
