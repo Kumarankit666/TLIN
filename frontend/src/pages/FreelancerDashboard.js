@@ -166,7 +166,6 @@ function FreelancerDashboard() {
     setStatus(e.target.value);
   };
 
-  // 🆕 Chat button handler
   const handleChat = () => {
     if (!selectedProject) return;
     const clientEmail = selectedProject.clientEmail || "unknown@example.com";
@@ -342,26 +341,66 @@ function FreelancerDashboard() {
         )}
       </div>
 
+      {/* ✅ Apply Form Popup */}
+      {showForm && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Apply for {selectedProject?.title}</h2>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                placeholder="Your Name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required
+              />
+              <input
+                type="email"
+                placeholder="Your Email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
+              />
+              <input
+                type="number"
+                placeholder="Proposed Budget (₹)"
+                value={formData.budget}
+                onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                required
+              />
+              <input
+                type="date"
+                placeholder="Deadline"
+                value={formData.deadline}
+                onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
+                required
+              />
+              <textarea
+                placeholder="Why should client hire you?"
+                value={formData.reason}
+                onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
+                required
+              />
+              <div className="form-buttons">
+                <button type="submit" className="submit-btn">Submit</button>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setShowForm(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Accepted Project Popup */}
       {showAcceptedPopup && (
         <div className="modal-overlay">
-          <div
-            className="modal"
-            style={{
-              background: "linear-gradient(135deg, #ffffff, #f1f4f8)",
-              padding: "25px",
-              borderRadius: "15px",
-              boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
-              maxWidth: "500px",
-            }}
-          >
-            <h2
-              style={{
-                textAlign: "center",
-                marginBottom: "10px",
-                color: "#007bff",
-              }}
-            >
+          <div className="modal" style={{ maxWidth: "500px" }}>
+            <h2 style={{ textAlign: "center", marginBottom: "10px", color: "#007bff" }}>
               {selectedProject?.projectTitle}
             </h2>
 
@@ -425,7 +464,6 @@ function FreelancerDashboard() {
                 💾 Save (Propose)
               </button>
 
-              {/* 🆕 Chat Button */}
               <button
                 className="dashboard-btn"
                 style={{
