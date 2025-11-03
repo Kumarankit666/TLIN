@@ -7,8 +7,6 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { FaEnvelope } from "react-icons/fa"; // Only message icon kept
-
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import Profile_Client from "./pages/Profile_Client";
@@ -22,12 +20,8 @@ import PostProject from "./pages/PostProject";
 import HomePage from "./pages/HomePage";
 import ProjectsSearchPage from "./pages/ProjectsSearchPage";
 import "./pages/Auth.css";
-import { AiOutlineMail } from "react-icons/ai";
 
-// ✅ Chat Page import
-import ChatPage from "./pages/ChatPage";
-
-// ✅ Header Component (without notifications)
+// ✅ Header Component (message part removed)
 function HeaderBar({ theme, toggleTheme }) {
   const navigate = useNavigate();
   let user = {
@@ -52,7 +46,6 @@ function HeaderBar({ theme, toggleTheme }) {
   else greeting = "Good Evening";
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [messageOpen, setMessageOpen] = useState(false);
 
   return (
     <div
@@ -91,71 +84,21 @@ function HeaderBar({ theme, toggleTheme }) {
       </div>
 
       {/* Right Section */}
-      <div style={{ display: "flex", alignItems: "center", gap: "15px", position: "relative" }}>
-        {/* Message Icon */}
-        <div style={{ position: "relative", cursor: "pointer" }} onClick={() => setMessageOpen(!messageOpen)}>
-          <FaEnvelope size={24} color={theme === "dark" ? "#fff" : "#333"} />
-          <span
-            style={{
-              position: "absolute",
-              top: -5,
-              right: -5,
-              background: "red",
-              color: "white",
-              borderRadius: "50%",
-              padding: "2px 6px",
-              fontSize: "10px",
-              fontWeight: "bold",
-            }}
-          >
-            1
-          </span>
-
-          {/* Message Dropdown */}
-          {messageOpen && (
-            <div
-              style={{
-                position: "absolute",
-                right: 0,
-                top: "35px",
-                width: "300px",
-                background: theme === "dark" ? "#222" : "#fff",
-                color: theme === "dark" ? "#fff" : "#000",
-                boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
-                borderRadius: "10px",
-                padding: "10px",
-                zIndex: 1000,
-              }}
-            >
-              <h4 style={{ margin: "5px 0" }}>Messages</h4>
-              <div style={{ maxHeight: "200px", overflowY: "auto" }}>
-                <p style={{ padding: "5px 0", borderBottom: "1px solid #ccc" }}>Message 1</p>
-                <p style={{ padding: "5px 0", borderBottom: "1px solid #ccc" }}>Message 2</p>
-                <p style={{ padding: "5px 0", borderBottom: "1px solid #ccc" }}>Message 3</p>
-              </div>
-              <button
-                onClick={() => navigate("/chat")}
-                style={{
-                  marginTop: "5px",
-                  width: "100%",
-                  padding: "6px 10px",
-                  background: "#2563eb",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                }}
-              >
-                💬 Open Chat
-              </button>
-            </div>
-          )}
-        </div>
-
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "15px",
+          position: "relative",
+        }}
+      >
         {/* Profile dropdown */}
         <div style={{ position: "relative" }}>
           <img
-            src={user.profilePhoto || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
+            src={
+              user.profilePhoto ||
+              "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+            }
             alt="Profile"
             onClick={() => setDropdownOpen(!dropdownOpen)}
             style={{
@@ -184,7 +127,10 @@ function HeaderBar({ theme, toggleTheme }) {
             >
               <div style={{ textAlign: "center" }}>
                 <img
-                  src={user.profilePhoto || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
+                  src={
+                    user.profilePhoto ||
+                    "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                  }
                   alt="Profile"
                   style={{
                     width: "60px",
@@ -194,7 +140,15 @@ function HeaderBar({ theme, toggleTheme }) {
                   }}
                 />
                 <h3 style={{ margin: 0 }}>{user.username}</h3>
-                <p style={{ margin: "5px 0", fontSize: "14px", opacity: 0.8 }}>{user.email}</p>
+                <p
+                  style={{
+                    margin: "5px 0",
+                    fontSize: "14px",
+                    opacity: 0.8,
+                  }}
+                >
+                  {user.email}
+                </p>
                 <p
                   style={{
                     margin: "5px 0",
@@ -290,9 +244,6 @@ function App() {
           <Route path="/my-projects" element={<MyProjects />} />
           <Route path="/post-project" element={<PostProject />} />
           <Route path="/homepage" element={<HomePage />} />
-
-          {/* ✅ Chat Page */}
-          <Route path="/chat" element={<ChatPage />} />
         </Routes>
       </Layout>
     </Router>
