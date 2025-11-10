@@ -1,0 +1,142 @@
+/* 🌟 Why Choose Section (Clean + Typing Effect) */
+.why-choose {
+  text-align: center;
+  padding: 100px 20px;
+  background: transparent;
+  border: none;
+  animation: fadeText 1s ease forwards;
+  opacity: 0;
+}
+
+.why-choose.visible {
+  opacity: 1;
+  animation: typingEffect 1.6s steps(30, end);
+}
+
+.why-choose h2 {
+  font-size: 2.2rem;
+  margin-bottom: 60px;
+  font-weight: 700;
+  color: #00ffff;
+  border-right: 3px solid #00ffff;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  width: 0;
+  animation: typingEffect 1.6s steps(25, end) forwards;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.feature {
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  padding: 25px;
+  width: 230px;
+  transition: all 0.3s ease;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+}
+
+.feature .icon {
+  font-size: 2.3rem;
+  color: #00ffff;
+  margin-bottom: 10px;
+}
+
+.feature h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #00ffff;
+}
+
+.feature p {
+  font-size: 0.95rem;
+  color: #aaa;
+}
+
+/* 🌟 How It Works (Clean, No Glow, Typing Animation) */
+.how-it-works {
+  text-align: center;
+  padding: 100px 20px;
+  background: transparent;
+  border: none;
+  animation: fadeText 1s ease forwards;
+  opacity: 0;
+}
+
+.how-it-works.visible {
+  opacity: 1;
+  animation: typingEffect 1.8s steps(30, end);
+}
+
+.how-it-works h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 50px;
+  color: #00ffff;
+  border-right: 3px solid #00ffff;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  width: 0;
+  animation: typingEffect 1.8s steps(30, end) forwards;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 35px;
+  margin-top: 40px;
+}
+
+.step {
+  background: transparent;
+  border: none;
+  padding: 25px;
+  border-radius: 12px;
+  width: 230px;
+  transition: all 0.3s ease;
+}
+
+.step:hover {
+  transform: translateY(-5px);
+}
+
+.step-icon {
+  font-size: 2.3rem;
+  color: #00ffff;
+  margin-bottom: 12px;
+}
+
+.step h3 {
+  font-size: 1.2rem;
+  color: #00ffff;
+  margin-bottom: 8px;
+}
+
+.step p {
+  font-size: 0.95rem;
+  color: #aaa;
+}
+
+/* ✨ Typing + Fade Animations */
+@keyframes typingEffect {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes fadeText {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}

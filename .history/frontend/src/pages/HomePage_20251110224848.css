@@ -1,0 +1,301 @@
+/* 🌌 Canvas Background (Animated Dots Like GenZai) */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: radial-gradient(circle at 20% 20%, #0b0c10, #1a1a2e 60%, #0b0c10 100%);
+  overflow: hidden;
+}
+
+/* 🌈 Background Themes */
+.light {
+  background: linear-gradient(135deg, #dff9ff, #ffffff);
+  color: #111;
+}
+
+.dark {
+  background: linear-gradient(135deg, #0b0c10, #1a1a2e);
+  color: #eaeaea;
+}
+
+.homepage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.4s ease-in-out;
+  position: relative;
+  z-index: 1;
+}
+
+/* 🌐 Header */
+.homepage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 50px;
+  position: relative;
+  z-index: 2;
+  backdrop-filter: blur(8px);
+}
+
+.logo {
+  font-size: 28px;
+  color: #00ffff;
+  text-shadow: 0 1 12px #00ffff, 0 0 20px #0099ff;
+}
+
+/* ☀️🌙 Toggle Button */
+.theme-toggle {
+  background: transparent;
+  border: 2px solid #00ffff;
+  border-radius: 10px;
+  color: #00ffff;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.theme-toggle:hover {
+  background: #00ffff;
+  color: #000;
+  box-shadow: 0 0 25px #00ffff;
+}
+
+/* 🚀 Hero Section */
+.hero {
+  flex: 1;
+  text-align: center;
+  padding: 100px 20px 120px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content h2 {
+  font-size: 45px;
+  font-weight: 700;
+  color: #00ffff;
+  text-shadow: 0 1 20px #00ffff, 0 0 40px #00cccc;
+  animation: fadeInUp 1s ease;
+}
+
+.hero-content span {
+  color: #7b68ee;
+}
+
+.hero-content p {
+  max-width: 650px;
+  margin: 25px auto;
+  line-height: 1.7;
+  font-size: 18px;
+  color: #d8e6e7;
+  animation: fadeInUp 1.3s ease;
+}
+
+/* 🟢 Buttons */
+.btn {
+  display: inline-block;
+  padding: 13px 26px;
+  margin: 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.primary-btn {
+  background: linear-gradient(90deg, #00ffff, #7b68ee);
+  color: #000;
+  box-shadow: 0 1 25px #00ffff;
+}
+
+.secondary-btn {
+  background-color: transparent;
+  border: 2px solid #00ffff;
+  color: #00ffff;
+}
+
+.btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 1 30px #00ffff, 0 0 60px #7b68ee;
+}
+
+/* ⚡ Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🌟 How It Works Section */
+.how-it-works {
+  background: linear-gradient(180deg, rgba(20, 30, 60, 0), rgba(30, 20, 60, 0));
+  text-align: center;
+  padding: 120px 20px;
+  color: #eaeaea;
+}
+
+.how-it-works h2 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 70px;
+  color: #00ffff;
+  text-shadow: 0 1 15px #00ffff;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 45px;
+}
+
+.step {
+  background: rgba(255, 255, 255, 0.07);
+  width: 240px;
+  padding: 35px;
+  border-radius: 20px;
+  box-shadow: 0 4px 25px rgba(0, 255, 255, 0.15);
+  transition: all 0.4s ease;
+  backdrop-filter: blur(10px);
+}
+
+.step:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 35px rgba(0, 255, 255, 0.4);
+}
+
+.step-icon {
+  font-size: 2.8rem;
+  color: #00ffff;
+  margin-bottom: 18px;
+  text-shadow: 0 1 15px #00ffff;
+}
+
+.step h3 {
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.step p {
+  font-size: 1rem;
+  color: #b8b8b8;
+}
+
+/* 🌟 Why Choose Section */
+.why-choose {
+  background: linear-gradient(180deg, rgba(10, 15, 30, 0), rgba(20, 25, 50, 0));
+  text-align: center;
+  padding: 120px 20px;
+}
+
+.why-choose h2 {
+  font-size: 2.4rem;
+  margin-bottom: 70px;
+  font-weight: 700;
+  color: #00ffff;
+  text-shadow: 0 1 20px #00ffff;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 50px;
+}
+
+.feature {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.15);
+  padding: 35px;
+  width: 240px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  backdrop-filter: blur(8px);
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 40px rgba(0, 255, 255, 0.4);
+}
+
+.feature .icon {
+  font-size: 2.6rem;
+  color: #00ffff;
+  margin-bottom: 18px;
+  text-shadow: 0 1 15px #00ffff;
+}
+
+.feature h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.feature p {
+  font-size: 1rem;
+  color: #bbb;
+}
+
+/* 💜 CTA Section */
+.cta-section {
+  text-align: center;
+  padding: 100px 20px;
+  background: linear-gradient(180deg, #111a2b00, #1b103000);
+  color: #eaeaea;
+}
+
+.cta-section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: #00ffff;
+  text-shadow: 0 0 15px #00ffff;
+}
+
+.cta-section p {
+  font-size: 1.1rem;
+  margin-bottom: 35px;
+  color: #ccc;
+}
+
+.cta-btn {
+  background: linear-gradient(90deg, #00ffff, #7b68ee);
+  color: #000;
+  font-weight: 700;
+  padding: 14px 36px;
+  border-radius: 35px;
+  text-decoration: none;
+  box-shadow: 0 0 25px #00ffff;
+  transition: all 0.3s ease;
+}
+
+.cta-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 40px #00ffff, 0 0 60px #7b68ee;
+}
+
+/* 🔻 Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #aaa;
+  position: relative;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0);
+}

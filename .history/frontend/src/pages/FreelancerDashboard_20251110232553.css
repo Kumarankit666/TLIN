@@ -1,0 +1,619 @@
+/* Custom Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* ========== BASE STYLES - ADJUSTED FONT & BACKGROUND ========== */
+body {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: #005ae1; 
+    color: #334155;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh; 
+}
+
+/* ========== SIDEBAR - MAINTAINED COLOR SCHEME ========== */
+.sidebar {
+    width: 250px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    padding: 20px;
+    position: relative; 
+}
+
+/* ========== MAIN SECTION ========== */
+.main {
+    flex: 1;
+    padding: 20px;
+    /* Increased padding-top to ensure content is below fixed search bar */
+    padding-top: 130px; 
+}
+
+/* 🚀 FIXED SEARCH CONTAINER STYLES (UPDATED) */
+.search-container-fixed {
+    position: fixed; 
+    top: 80px; /* Earning Cards के ऊपर */
+    left: 600px; /* Sidebar width + padding */
+    width: 600px; /* आकर्षक छोटी चौड़ाई */
+    z-index: 500; 
+    padding: 10px 0; 
+    background: #f0f2f500; 
+}
+
+.search-input-field {
+    width: 90%;
+    padding: 10px;
+    border: 3px solid #fff9f9;
+    border-radius: 25px; /* Attractive Circle Cornor */
+    font-size: 16px;
+    box-shadow: 0 3px 1px rgba(0, 0, 0, 0.15); /* Prominent Shaddow */
+    transition: all 0.3s;
+}
+
+.search-input-field:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.4);
+    outline: none;
+}
+
+
+/* ========== METRICS ========== */
+.metrics {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.metric-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
+    flex: 1;
+    text-align: center;
+    transition: transform 0.2s;
+}
+.metric-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); 
+}
+
+/* ========== NAVIGATION ========== */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.2); 
+}
+
+
+/* ========== APPLIED PROJECTS CARD STYLES ========== */
+
+.applied-list-container {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px;
+    margin-top: 25px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+}
+.applied-list-container h3 {
+    color: #4f46e5;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.applied-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 20px;
+}
+
+.applied-project-card {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px;
+}
+
+.applied-project-card:not(.accepted-card):hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.applied-project-card.accepted-card:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
+}
+
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.project-title-large {
+    font-size: 18px;
+    font-weight: 700;
+    color: #334155;
+    line-height: 1.2;
+}
+
+.card-details p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #475569;
+}
+.detail-icon {
+    margin-right: 5px;
+    font-weight: 600;
+    color: #4f46e5;
+}
+.applied-at-text {
+    font-size: 12px !important;
+    color: #94a3b8 !important;
+    margin-top: 10px !important;
+}
+
+.accepted-action-info {
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px dashed #c0c0c0;
+    font-size: 13px;
+    color: #28a745;
+    font-weight: 600;
+}
+
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.status-pending {
+    background-color: #ffedc2; 
+    color: #d97706; 
+}
+
+.status-accepted {
+    background-color: #d1fae5; 
+    color: #059669; 
+}
+
+.status-rejected {
+    background-color: #fee2e2; 
+    color: #dc2626; 
+}
+
+.status-proposed {
+    background-color: #e0f2fe; 
+    color: #3b82f6; 
+}
+
+.status-default {
+    background-color: #e2e8f0;
+    color: #64748b;
+}
+
+.accepted-card {
+    background: linear-gradient(145deg, #d4edda, #e8fff0); 
+    border: 1px solid #28a745;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+}
+
+.no-applications {
+    text-align: center;
+    padding: 30px;
+    font-size: 18px;
+    color: #64748b;
+}
+
+
+/* ========== BUTTONS (for Delete/Withdraw/Apply) ========== */
+
+.dashboard-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 8px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.dashboard-btn:hover {
+    opacity: 0.9;
+}
+
+.dashboard-btn.cancel {
+    background-color: #f44336; /* Red for Delete/Trash */
+}
+.dashboard-btn.withdraw {
+    background-color: #f59e0b !important; /* Amber for Withdraw Pending */
+}
+
+.apply-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px; 
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600; 
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.4);
+}
+
+.apply-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* ========== MODAL & APPLY FORM ========== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; 
+}
+
+.modal {
+    background: white;
+    padding: 30px; 
+    border-radius: 15px; 
+    width: 450px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    animation: fadeInScale 0.3s ease-out; 
+}
+
+.apply-form-modal {
+    background: linear-gradient(145deg, #ffffff, #f7f9fc); 
+    border: 1px solid #e0e7ff;
+}
+
+.apply-form-modal h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+    color: #4f46e5; 
+}
+
+.apply-form-modal form input,
+.apply-form-modal form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: #f8fafc; 
+}
+
+.apply-form-modal form input:focus,
+.apply-form-modal form textarea:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+    outline: none;
+    background: #fff;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.submit-btn,
+.cancel-btn-form { 
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s;
+}
+
+.submit-btn {
+    background-color: #10b981; 
+    color: white;
+}
+
+.submit-btn:hover {
+    background-color: #059669;
+    transform: translateY(-1px);
+}
+
+.cancel-btn-form {
+    background-color: #f44336; 
+    color: white;
+}
+
+.cancel-btn-form:hover {
+    background-color: #d32f2f;
+    transform: translateY(-1px);
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
+/* =========================================================
+   ✅ CUSTOM NOTIFICATION STYLES (MATCHING SCREENSHOT)
+   ========================================================= */
+
+/* 1. Notification Icon (Fixed Top Right) */
+.notification-icon-fixed {
+    position: fixed;
+    top: 10px;
+    right: 90px;
+    background-color: #fcfbfb; /* Matching the screenshot's subtle background */
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* 2. Notification Badge (The Red Count Dot) */
+.notification-badge-fixed {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ef4444; /* Red color */
+    color: white;
+    border-radius: 50%;
+    padding: 3px 6px;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+/* 3. Notification List Container (The Dropdown Box) */
+.notification-list-container {
+    position: absolute; /* Changed to absolute relative to its parent (the icon div) */
+    top: 55px; /* Adjust based on icon height */
+    right: 0;
+    width: 300px; 
+    max-height: 400px; /* Limit height and enable scrolling */
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    z-index: 999;
+    border: 1px solid #e0e0e0;
+    /* Removed animation for simplicity, keep it if preferred */
+}
+
+/* Header/Title within the list (Purple background) */
+.notification-header-title {
+    background-color: #6a0dad; /* Purple background from screenshot */
+    color: white;
+    padding: 12px 15px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    font-family: Arial, sans-serif; /* Common font for appearance */
+}
+
+/* 4. Individual List Item Styling */
+.notification-list-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-family: Arial, sans-serif; 
+    line-height: 1.3;
+}
+
+.notification-list-item:last-child {
+    border-bottom: none;
+}
+
+.notification-list-item:hover {
+    background-color: #f5f5f5;
+}
+
+/* Custom Content Styling for Screenshot Match */
+.list-item-header-custom {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3px;
+}
+
+.bell-icon {
+    font-size: 16px;
+    color: #ffcc00; /* Yellow bell color */
+    margin-right: 8px;
+}
+
+.notification-title-custom {
+    font-weight: **600**; 
+    font-size: 14px;
+    color: #333;
+}
+
+.notification-message-custom {
+    margin: 0;
+    padding-left: 24px; /* Indent to align with the start of the title text */
+    font-size: 13px;
+    color: #555;
+    white-space: normal; /* Allow wrap for long messages */
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.notification-time-custom {
+    display: block;
+    margin-top: 5px;
+    padding-left: 24px; 
+    font-size: 11px;
+    color: #999;
+    font-style: italic;
+}
+
+/* Styling for Read vs Unread */
+.notification-list-item.unread {
+    background-color: #fff; 
+    font-weight: normal;
+}
+.notification-list-item.read {
+    opacity: 0.8; /* Dim read items slightly */
+}
+
+
+/* Removed popup CSS as requested (Only click on icon should show list) */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== TRASH/ARCHIVE STYLES ========== */
+
+.archived-card {
+    /* Slightly darker/archived look */
+    background: #e2e8f0; 
+    border: 1px solid #94a3b8;
+    opacity: 0.85;
+    transition: none; 
+    box-shadow: none;
+}
+
+.archived-card:hover {
+    transform: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    opacity: 1;
+}
+
+.archived-card .project-title-large {
+    color: #475569;
+}
+
+/* ========== TRASH BULK ACTIONS STYLES ========== */
+
+.trash-bulk-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #fffbe7; 
+    border: 1px solid #fde047;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.select-all-label {
+    font-weight: 600;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.select-all-label input {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
+
+/* Card Selection Checkbox on Cards */
+.card-selection {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+
+/* ========== RATING STAR STYLES (NEW) ========== */
+
+.star-rating span:hover {
+    color: #ffbf00 !important;
+    transform: scale(1.1);
+}
+
+
+/* ========== REPORTS TABLE STYLES ========== */
+
+.reports-container {
+    margin-top: 25px;
+}
+
+.report-table-wrapper {
+    overflow-x: auto; 
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    font-size: 14px;
+    table-layout: fixed; 
+}
+
+.report-table th,
+.report-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.report-table th {
+    background-color: #f7f9fc;
+    color: #4f46e5;
+    font-weight: 700;
+    text-transform: uppercase;
+    position: sticky; 
+    top: 0;
+}
+
+.report-table tbody tr:hover {
+    background-color: #f0f2f5;
+}
+
+/* Status badge in table (reusing existing status-badge classes) */
+.report-table .status-badge {
+    padding: 4px 8px;
+    font-size: 11px;
+}

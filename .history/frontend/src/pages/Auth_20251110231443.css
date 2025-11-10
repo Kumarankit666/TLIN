@@ -1,0 +1,287 @@
+/* Full page with gradient + particles */
+.auth-page {
+  height: 50vh;
+  width: 100vw;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b, #0a192f);
+  overflow: hidden;
+}
+
+/* Floating Dots Background */
+.dots-bg::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: 0;
+  left: 0;
+  background: radial-gradient(2px 2px at 20px 30px, #38bdf8, transparent),
+              radial-gradient(2px 2px at 100px 80px, #60a5fa, transparent),
+              radial-gradient(2px 2px at 250px 180px, #3b82f6, transparent),
+              radial-gradient(2px 2px at 400px 250px, #06b6d4, transparent),
+              radial-gradient(2px 2px at 550px 400px, #22d3ee, transparent),
+              radial-gradient(2px 2px at 700px 150px, #7dd3fc, transparent);
+  background-size: 500px 500px;
+  animation: moveDots 25s linear infinite;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+@keyframes moveDots {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-250px, -200px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Glassmorphic Login Card */
+.login-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(25px);
+  border-radius: 25px;
+  padding: 50px 40px;
+  width: 370px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Title */
+.login-title {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #cbd5e1;
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.input-group input:focus {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 10px #38bdf8;
+}
+
+/* Role Buttons */
+.role-select {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.role-option {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+  user-select: none;
+  border: 1px solid transparent;
+}
+
+.role-option.active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  transform: scale(1.05);
+}
+
+/* Login Button */
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #0ea5e9, #3b82f6);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #38bdf8aa;
+}
+
+/* Register link */
+.register-text {
+  margin-top: 18px;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+.register-link {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Page Background with Animated Canvas Dots === */
+.auth-page {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at bottom right, #0a192f 0%, #020617 100%);
+  overflow: hidden;
+}
+
+/* Canvas that draws glowing moving dots */
+.animated-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background: radial-gradient(circle at top left, #0f172a, #1e293b);
+}
+
+/* Keep glassmorphic card above canvas */
+.login-card {
+  position: relative;
+  z-index: 2;
+}
+
+.forgot-password-link {
+  /* Space Btn Grp and role */
+  width: 100%;
+  text-align: right; 
+  margin-bottom: 10px; 
+}
+
+.forgot-link {
+  /* Link Style*/
+  color: #56bdf8; 
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.forgot-link:hover {
+  color: #8cd7ff; /* hover */
+  text-decoration: underline;
+}
+
+/* --- Forgot Password Modal Styles --- */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it is above everything */
+}
+
+.modal-content {
+  background: #1a2036; /* Dark background similar to your card */
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(56, 189, 248, 0.3); /* Subtle blue border */
+  color: white;
+}
+
+.modal-content h3 {
+  color: #56bdf8;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.modal-content p {
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.modal-close-btn {
+  background-color: #56bdf8;
+  color: #1a2036;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.modal-close-btn:hover {
+  background-color: #8cd7ff;
+}
+
+/* Updated style for the button version of 'Forgot Password' */
+.forgot-password-link {
+  width: 100%;
+  text-align: right;
+  margin-bottom: 15px;
+}
+
+.forgot-link-btn {
+  background: none;
+  border: none;
+  color: #56bdf8;
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.forgot-link-btn:hover {
+  color: #8cd7ff;
+  text-decoration: underline;
+}

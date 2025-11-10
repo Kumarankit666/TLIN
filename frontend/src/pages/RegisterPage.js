@@ -14,7 +14,7 @@ function RegisterPage() {
   });
   const [loading, setLoading] = useState(false);
 
-  // 🌌 Animated background dots (same as login)
+  // 🌌 Animated background dots (same as login) - इसमें कोई बदलाव नहीं है
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -70,40 +70,33 @@ function RegisterPage() {
     });
   };
 
+  // ⭐ हैंडल सबमिट फंक्शन में मुख्य बदलाव यहाँ है
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const response = await fetch("http://localhost:8000/api/register/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    // ⏳ 1.5 सेकंड का नकली लोडिंग टाइम (Backend-less Logic)
+    setTimeout(() => {
+      // 1. लोकल स्टोरेज में यूज़र डेटा सेव करें
+      const userToStore = {
+          id: Date.now(), // डमी id
+          username: formData.username,
+          email: formData.email,
+          role: formData.role,
+      };
 
-      const data = await response.json();
+      // 'user' key के तहत यूज़र ऑब्जेक्ट को JSON स्ट्रिंग के रूप में सेव करें
+      localStorage.setItem("user", JSON.stringify(userToStore));
+      
+      console.log("✅ DUMMY Registration successful! Data saved to Local Storage:", userToStore);
+      alert("🎉 Registration successful! Now please Login.");
+      
+      setLoading(false); // लोडिंग खत्म करें
 
-      if (response.ok) {
-        console.log("✅ User registered successfully:", data);
-        localStorage.setItem("user", JSON.stringify({ ...data, role: formData.role }));
-        alert("🎉 Registration successful!");
+      // 2. ⭐ यूज़र को सीधे लॉग इन पेज पर रीडायरेक्ट करें (role-based redirect हटा दिया गया)
+      navigate("/login"); 
 
-        if (formData.role === "client") {
-          navigate("/client-profile");
-        } else {
-          navigate("/freelancer-profile");
-        }
-      } else {
-        alert("⚠️ Registration failed: " + JSON.stringify(data));
-      }
-    } catch (error) {
-      alert("🚨 Something went wrong. Please try again.");
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    }, 1500); // 1.5 सेकंड की देरी
   };
 
   return (
