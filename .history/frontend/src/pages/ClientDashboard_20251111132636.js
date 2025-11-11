@@ -1479,7 +1479,194 @@ function ClientDashboard() {
                                 💾 Download Applications to Excel (.csv)
                             </button>
                         </div>
-                        
+                        {/* ======= EDIT PROFILE MODAL ======= */}
+{showEditModal && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      background: "rgba(0,0,0,0.7)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 3000,
+    }}
+  >
+    <div
+      style={{
+        background: "white",
+        borderRadius: "12px",
+        padding: "25px",
+        width: "400px",
+        boxShadow: "0 0 20px rgba(0,0,0,0.3)",
+        textAlign: "center",
+      }}
+    >
+      <h2 style={{ color: colors.primary }}>Edit Profile</h2>
+
+      {/* Profile Photo Upload */}
+      <div style={{ marginBottom: "15px" }}>
+        {profileData.photo ? (
+          <img
+            src={profileData.photo}
+            alt="Profile"
+            style={{
+              width: "80px",
+              height: "80px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              border: `2px solid ${colors.primary}`,
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              width: "80px",
+              height: "80px",
+              borderRadius: "50%",
+              background: "#f1f1f1",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "24px",
+              color: colors.primary,
+            }}
+          >
+            📸
+          </div>
+        )}
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = () =>
+                setProfileData({ ...profileData, photo: reader.result });
+              reader.readAsDataURL(file);
+            }
+          }}
+        />
+      </div>
+
+      <input
+        type="text"
+        placeholder="Full Name"
+        value={profileData.name}
+        onChange={(e) =>
+          setProfileData({ ...profileData, name: e.target.value })
+        }
+        style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+      />
+
+      <input
+        type="text"
+        placeholder="Company / Organization"
+        value={profileData.company}
+        onChange={(e) =>
+          setProfileData({ ...profileData, company: e.target.value })
+        }
+        style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+      />
+
+      <textarea
+        placeholder="Bio"
+        value={profileData.bio}
+        onChange={(e) =>
+          setProfileData({ ...profileData, bio: e.target.value })
+        }
+        style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+      ></textarea>
+
+      <input
+        type="text"
+        placeholder="Budget Range (e.g. $500 - $5000)"
+        value={profileData.budgetRange}
+        onChange={(e) =>
+          setProfileData({
+            ...profileData,
+            budgetRange: e.target.value,
+          })
+        }
+        style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+      />
+
+      <select
+        value={profileData.hiringFrequency}
+        onChange={(e) =>
+          setProfileData({
+            ...profileData,
+            hiringFrequency: e.target.value,
+          })
+        }
+        style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+      >
+        <option value="Occasional">Occasional</option>
+        <option value="Frequent">Frequent</option>
+        <option value="Full-time Hiring">Full-time Hiring</option>
+      </select>
+
+      <input
+        type="text"
+        value={profileData.role}
+        readOnly
+        style={{
+          width: "100%",
+          padding: "8px",
+          marginBottom: "10px",
+          background: "#f5f5f5",
+          textAlign: "center",
+          color: colors.primary,
+          fontWeight: "bold",
+        }}
+      />
+
+      <button
+        style={{
+          background: colors.primary,
+          color: "white",
+          border: "none",
+          borderRadius: "6px",
+          padding: "10px 20px",
+          marginRight: "10px",
+        }}
+        onClick={() => {
+          localStorage.setItem("clientName", profileData.name);
+          localStorage.setItem("clientCompany", profileData.company);
+          localStorage.setItem("clientBio", profileData.bio);
+          localStorage.setItem("clientPhoto", profileData.photo);
+          localStorage.setItem("clientBudgetRange", profileData.budgetRange);
+          localStorage.setItem(
+            "clientHiringFrequency",
+            profileData.hiringFrequency
+          );
+          alert("✅ Profile Updated Successfully!");
+          setShowEditModal(false);
+        }}
+      >
+        💾 Save
+      </button>
+
+      <button
+        style={{
+          background: "gray",
+          color: "white",
+          border: "none",
+          borderRadius: "6px",
+          padding: "10px 20px",
+        }}
+        onClick={() => setShowEditModal(false)}
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+)}
+
 
                         {getApplicationsForProject(selectedProject.title).length === 0 ? (
                             <p style={{ color: colors.lightText }}>No applications received yet for this project.</p>

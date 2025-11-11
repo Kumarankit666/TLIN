@@ -1479,7 +1479,6 @@ function ClientDashboard() {
                                 💾 Download Applications to Excel (.csv)
                             </button>
                         </div>
-                        
 
                         {getApplicationsForProject(selectedProject.title).length === 0 ? (
                             <p style={{ color: colors.lightText }}>No applications received yet for this project.</p>

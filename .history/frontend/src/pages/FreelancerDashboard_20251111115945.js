@@ -34,8 +34,6 @@ const [profileData, setProfileData] = useState({
   skills: localStorage.getItem("freelancerSkills") || "",
   bio: localStorage.getItem("freelancerBio") || "",
   photo: localStorage.getItem("freelancerPhoto") || "",
-  hourlyRate: localStorage.getItem("freelancerHourlyRate") || "",
-  availability: localStorage.getItem("freelancerAvailability") || "Full-time",
   role: "Freelancer",
 });
 
@@ -928,7 +926,6 @@ const handleDeleteAccount = () => {
     </button>
   </div>
 )}
-
 
 {/* ⚠️ Delete Confirmation Modal */}
 {showDeleteConfirm && (

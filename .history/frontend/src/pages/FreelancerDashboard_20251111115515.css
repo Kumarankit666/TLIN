@@ -378,13 +378,13 @@ body {
     position: fixed;
     top: 10px;
     right: 90px;
-    background-color: #fcfbfb00; /* Matching the screenshot's subtle background */
+    background-color: #fcfbfb; /* Matching the screenshot's subtle background */
     color: #333;
     padding: 10px 15px;
     border-radius: 15px;
     font-size: 20px;
     cursor: pointer;
-    box-shadow: 0 0px 5px rgba(253, 250, 250, 0);
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
 
@@ -649,7 +649,7 @@ body {
 
 .popup-btn {
   background: transparent;
-  color: #35e3b7;
+  color: #eaeaea;
   border: none;
   text-align: left;
   padding: 10px;

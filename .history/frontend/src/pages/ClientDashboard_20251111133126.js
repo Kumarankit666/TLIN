@@ -1296,7 +1296,7 @@ function ClientDashboard() {
                 <h2 style={{ margin: 0, color: colors.primary }}>📊 Client Dashboard</h2>
                 
                 {/* Notification Icon and List Container */}
-                <div style={{ position: "absolute", top: "20px", right: "20px", display: 'flex', alignItems: 'center' }}>
+                <div style={{ position: "absolute", top: "20px", right: "10px", display: 'flex', alignItems: 'center' }}>
                     
                     {/* Notification Icon */}
                     <div

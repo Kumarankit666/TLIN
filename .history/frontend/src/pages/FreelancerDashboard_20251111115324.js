@@ -29,16 +29,6 @@ function FreelancerDashboard() {
 const [showProfilePopup, setShowProfilePopup] = useState(false);
 const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 const [deleteInput, setDeleteInput] = useState("");
-const [profileData, setProfileData] = useState({
-  name: localStorage.getItem("freelancerName") || "",
-  skills: localStorage.getItem("freelancerSkills") || "",
-  bio: localStorage.getItem("freelancerBio") || "",
-  photo: localStorage.getItem("freelancerPhoto") || "",
-  hourlyRate: localStorage.getItem("freelancerHourlyRate") || "",
-  availability: localStorage.getItem("freelancerAvailability") || "Full-time",
-  role: "Freelancer",
-});
-
 
 const handleLogout = () => {
   if (window.confirm("Are you sure you want to logout?")) {
@@ -928,7 +918,6 @@ const handleDeleteAccount = () => {
     </button>
   </div>
 )}
-
 
 {/* ⚠️ Delete Confirmation Modal */}
 {showDeleteConfirm && (

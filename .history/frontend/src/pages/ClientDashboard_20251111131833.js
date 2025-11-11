@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef, memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom"; 
 import { FaUserCircle } from "react-icons/fa";
 
+
+
 // --- START: UI Style Constants (COLORFUL & ATTRACTIVE PALETTE) ---
 const colors = {
     primary: '#6f42c1', 
@@ -586,23 +588,7 @@ const EditProjectModal = ({ project, onClose, onSave }) => {
         </div>
     );
 };
-
-
-// =========================================================================
-// MAIN COMPONENT
-// =========================================================================
-
-function ClientDashboard() {
-    const [projects, setProjects] = useState([]);
-    const [applications, setApplications] = useState([]);
-    const [selectedProject, setSelectedProject] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [editProject, setEditProject] = useState(null); 
-    const [notifications, setNotifications] = useState([]);
-    const [showNotificationList, setShowNotificationList] = useState(false);
-
-    const [hoveredProjectIndex, setHoveredProjectIndex] = useState(null); 
-      // ✅ Profile States
+  // PROFILE STATES
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -618,6 +604,20 @@ function ClientDashboard() {
     role: "Client",
   });
 
+// =========================================================================
+// MAIN COMPONENT
+// =========================================================================
+
+function ClientDashboard() {
+    const [projects, setProjects] = useState([]);
+    const [applications, setApplications] = useState([]);
+    const [selectedProject, setSelectedProject] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [editProject, setEditProject] = useState(null); 
+    const [notifications, setNotifications] = useState([]);
+    const [showNotificationList, setShowNotificationList] = useState(false);
+
+    const [hoveredProjectIndex, setHoveredProjectIndex] = useState(null); 
     
     // Rating/Review States 
     const [showRatingPopup, setShowRatingPopup] = useState(false);
@@ -683,7 +683,6 @@ function ClientDashboard() {
         const oldApplications = previousApplicationsRef.current; 
         
         const existingProjectTitles = new Set(projects.map(p => p.title));
-        
 
 
         // 1. Check for NEW Application
@@ -731,21 +730,6 @@ function ClientDashboard() {
         previousApplicationsRef.current = currentApplications; 
         
     }, [applications, projects]); 
-      // ✅ Close Profile Popup on outside click
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (
-        showProfilePopup &&
-        !e.target.closest(".profile-icon") &&
-        !e.target.closest(".profile-popup")
-      ) {
-        setShowProfilePopup(false);
-      }
-    };
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, [showProfilePopup]);
-
     
     // Click outside notification list listener
     useEffect(() => {
@@ -1205,92 +1189,7 @@ function ClientDashboard() {
                     onSave={handleEditSave}
                 />
             )}
-              {/* 👤 Profile Icon (Top Right Fixed) */}
-  <div
-    className="profile-icon"
-    onClick={(e) => {
-      e.stopPropagation();
-      setShowProfilePopup(!showProfilePopup);
-    }}
-    style={{
-      cursor: "pointer",
-      fontSize: "34px",
-      color: colors.primary,
-      marginRight: "15px",
-    }}
-  >
-    <FaUserCircle />
-  </div>
-
-  {/* 🧠 Profile Popup */}
-  {showProfilePopup && (
-    <div
-      className="profile-popup"
-      style={{
-        position: "absolute",
-        top: "60px",
-        right: "0px",
-        background: "white",
-        boxShadow: "0 5px 20px rgba(0,0,0,0.2)",
-        borderRadius: "12px",
-        padding: "15px",
-        width: "200px",
-        zIndex: 2000,
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <button
-        style={{
-          background: "none",
-          border: "none",
-          padding: "8px",
-          textAlign: "left",
-          cursor: "pointer",
-        }}
-        onClick={() => {
-          setShowEditModal(true);
-          setShowProfilePopup(false);
-        }}
-      >
-        ✏️ Edit Profile
-      </button>
-
-      <button
-        style={{
-          background: "none",
-          border: "none",
-          padding: "8px",
-          textAlign: "left",
-          cursor: "pointer",
-        }}
-        onClick={() => {
-          navigate("/login");
-          localStorage.removeItem("isLoggedIn");
-        }}
-      >
-        🚪 Logout
-      </button>
-
-      <button
-        style={{
-          background: "none",
-          border: "none",
-          padding: "8px",
-          textAlign: "left",
-          color: "red",
-          cursor: "pointer",
-        }}
-        onClick={() => {
-          setShowDeleteConfirm(true);
-          setShowProfilePopup(false);
-        }}
-      >
-        ❌ Delete Account
-      </button>
-    </div>
-  )}
-
+            
             {/* Header and Notification Icon Wrapper */}
             <div style={styles.header}>
                 <h2 style={{ margin: 0, color: colors.primary }}>📊 Client Dashboard</h2>
@@ -1479,7 +1378,6 @@ function ClientDashboard() {
                                 💾 Download Applications to Excel (.csv)
                             </button>
                         </div>
-                        
 
                         {getApplicationsForProject(selectedProject.title).length === 0 ? (
                             <p style={{ color: colors.lightText }}>No applications received yet for this project.</p>

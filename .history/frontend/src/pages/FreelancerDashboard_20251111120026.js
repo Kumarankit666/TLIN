@@ -929,7 +929,6 @@ const handleDeleteAccount = () => {
   </div>
 )}
 
-
 {/* ⚠️ Delete Confirmation Modal */}
 {showDeleteConfirm && (
   <div className="delete-modal">

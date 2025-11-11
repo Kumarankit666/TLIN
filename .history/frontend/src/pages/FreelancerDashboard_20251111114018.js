@@ -2,9 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as FileSaver from "file-saver"; 
 import * as XLSX from "xlsx"; 
-import "./FreelancerDashboard.css";
+import "./FreelancerDashboard.css"; 
 import { FaUserCircle } from "react-icons/fa";
-
 
 function FreelancerDashboard() {
   const navigate = useNavigate();
@@ -25,37 +24,6 @@ function FreelancerDashboard() {
   const [currentRatingProject, setCurrentRatingProject] = useState(null); 
   const [totalEarnings, setTotalEarnings] = useState(0); 
   const [averageRating, setAverageRating] = useState(0); 
-  // === Profile Menu States ===
-const [showProfilePopup, setShowProfilePopup] = useState(false);
-const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-const [deleteInput, setDeleteInput] = useState("");
-const [profileData, setProfileData] = useState({
-  name: localStorage.getItem("freelancerName") || "",
-  skills: localStorage.getItem("freelancerSkills") || "",
-  bio: localStorage.getItem("freelancerBio") || "",
-  photo: localStorage.getItem("freelancerPhoto") || "",
-  hourlyRate: localStorage.getItem("freelancerHourlyRate") || "",
-  availability: localStorage.getItem("freelancerAvailability") || "Full-time",
-  role: "Freelancer",
-});
-
-
-const handleLogout = () => {
-  if (window.confirm("Are you sure you want to logout?")) {
-    navigate("/login");
-  }
-};
-
-const handleDeleteAccount = () => {
-  if (deleteInput.toLowerCase() === "delete") {
-    alert("Account deleted permanently!");
-    localStorage.clear();
-    navigate("/register");
-  } else {
-    alert("Type 'delete' to confirm account deletion!");
-  }
-};
-
 
   const [formData, setFormData] = useState({
     name: "",
@@ -117,20 +85,6 @@ const handleDeleteAccount = () => {
     
     playNotificationSound();
   };
-  useEffect(() => {
-  const handleClickOutside = (e) => {
-    if (
-      showProfilePopup &&
-      !e.target.closest(".profile-icon") &&
-      !e.target.closest(".profile-popup")
-    ) {
-      setShowProfilePopup(false);
-    }
-  };
-  document.addEventListener("click", handleClickOutside);
-  return () => document.removeEventListener("click", handleClickOutside);
-}, [showProfilePopup]);
-
 
   // Click anywhere except notification list => hide the list
   useEffect(() => {
@@ -902,58 +856,6 @@ const handleDeleteAccount = () => {
           </div>
         )}
       </div>
-      {/* 👤 Profile Icon (Fixed) */}
-<div
-  className="profile-icon"
-  onClick={(e) => {
-    e.stopPropagation();
-    setShowProfilePopup(!showProfilePopup);
-  }}
->
-  <FaUserCircle size={40} color="#00ffff" />
-</div>
-
-{/* 🌟 Profile Popup */}
-{showProfilePopup && (
-  <div className="profile-popup">
-    <button className="popup-btn edit-btn">✏️ Edit Profile</button>
-    <button className="popup-btn logout-btn" onClick={handleLogout}>
-      🚪 Logout
-    </button>
-    <button
-      className="popup-btn delete-btn"
-      onClick={() => setShowDeleteConfirm(true)}
-    >
-      ❌ Delete Account
-    </button>
-  </div>
-)}
-
-
-{/* ⚠️ Delete Confirmation Modal */}
-{showDeleteConfirm && (
-  <div className="delete-modal">
-    <div className="modal-content">
-      <h3>⚠️ Confirm Account Deletion</h3>
-      <p>
-        Type <b>delete</b> below to confirm account removal.
-      </p>
-      <input
-        type="text"
-        placeholder="Type delete here..."
-        value={deleteInput}
-        onChange={(e) => setDeleteInput(e.target.value)}
-      />
-      <div className="modal-actions">
-        <button onClick={() => setShowDeleteConfirm(false)}>Cancel</button>
-        <button className="confirm-btn" onClick={handleDeleteAccount}>
-          Confirm Delete
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
 
       {/* ====== SIDEBAR ====== */}
       <div className="sidebar">
@@ -1711,5 +1613,71 @@ const RatingReviewPopup = ({ projectTitle, onSubmit, onClose }) => {
     );
 };
 
+function FreelancerDashboard() {
+  const [showPopup, setShowPopup] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteInput, setDeleteInput] = useState("");
+
+  const handleLogout = () => {
+    alert("You have been logged out successfully!");
+  };
+
+  const handleDelete = () => {
+    if (deleteInput.toLowerCase() === "delete") {
+      alert("Account deleted permanently!");
+      setShowDeleteConfirm(false);
+      setDeleteInput("");
+    } else {
+      alert("Type 'delete' to confirm account deletion!");
+    }
+  };
+
+  return (
+    <div className="dashboard-container">
+      {/* 🌟 Fixed Profile Icon */}
+      <div className="profile-icon" onClick={() => setShowPopup(!showPopup)}>
+        <FaUserCircle size={40} color="#00ffff" />
+      </div>
+
+      {/* 🌟 Popup Menu */}
+      {showPopup && (
+        <div className="profile-popup">
+          <button className="popup-btn edit-btn">✏️ Edit Profile</button>
+          <button className="popup-btn logout-btn" onClick={handleLogout}>
+            🚪 Logout
+          </button>
+          <button
+            className="popup-btn delete-btn"
+            onClick={() => setShowDeleteConfirm(true)}
+          >
+            ❌ Delete Account
+          </button>
+        </div>
+      )}
+
+      {/* 🌟 Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="delete-modal">
+          <div className="modal-content">
+            <h3>⚠️ Confirm Account Deletion</h3>
+            <p>
+              Type <b>delete</b> below to confirm that you want to permanently
+              remove your account.
+            </p>
+            <input
+              type="text"
+              placeholder="Type delete here..."
+              value={deleteInput}
+              onChange={(e) => setDeleteInput(e.target.value)}
+            />
+            <div className="modal-actions">
+              <button onClick={() => setShowDeleteConfirm(false)}>Cancel</button>
+              <button className="confirm-btn" onClick={handleDelete}>
+                Confirm Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
 export default FreelancerDashboard;
